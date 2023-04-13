@@ -1,19 +1,18 @@
-import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
-import { Reflector } from "@nestjs/core";
-import { MemberRole } from "../../../member/interface/member-role";
-import { ROLES_KEY } from "../decorator/roles.decorator";
-import { JwtService } from "@nestjs/jwt";
-import { getAccessTokenPayload } from "../../../utils/get-access-token-payload";
+import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
+import { Reflector } from '@nestjs/core';
+import { MemberRole } from '../../../member/interface/member-role';
+import { ROLES_KEY } from '../decorator/roles.decorator';
+import { getAccessTokenPayload } from '../../../../infrastructure/utils/get-access-token-payload';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
-  constructor(private readonly reflector: Reflector, private readonly jwtService: JwtService) {}
+  constructor(private readonly reflector: Reflector) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const requiredRoles = this.reflector.getAllAndOverride<MemberRole[]>(ROLES_KEY, [
-      context.getHandler(),
-      context.getClass(),
-    ]);
+    const requiredRoles = this.reflector.getAllAndOverride<MemberRole[]>(
+      ROLES_KEY,
+      [context.getHandler(), context.getClass()],
+    );
     if (!requiredRoles) {
       return true;
     }
