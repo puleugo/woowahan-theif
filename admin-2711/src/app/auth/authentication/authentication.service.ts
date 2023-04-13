@@ -2,9 +2,9 @@ import { MemberService } from '../../member/member.service';
 import { JwtResponse } from './dto/jwt.response';
 import { LoginRequest } from './dto/login.request';
 import { RegisterRequest } from './dto/register.request';
-import { Member } from '../../member/entity/member.entity';
+import { Member } from '../../../domain/member/member.entity';
 import { IAccessTokenPayload } from './interface/access-token-payload.interface';
-import { MemberRole } from '../../member/interface/member-role';
+import { MemberRoleEnum } from '../../../domain/member/member-role.enum';
 import { JwtService } from '@nestjs/jwt';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { IRefreshTokenPayload } from './interface/refresh-token-payload.interface';
@@ -43,7 +43,7 @@ export class AuthenticationService {
     const payload: IAccessTokenPayload = {
       username: member.username,
       sub: member.id,
-      role: MemberRole.MEMBER,
+      role: MemberRoleEnum.MEMBER,
     };
     return await this.jwtService.signAsync(payload);
   }

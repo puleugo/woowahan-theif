@@ -1,7 +1,7 @@
-import { MemberRole } from "../../../member/interface/member-role";
+import { MemberRoleEnum } from "../../../../domain/member/member-role.enum";
 
 export interface IAccessTokenPayload {
   username: string,
   sub: string,
-  role: MemberRole.MEMBER
+  role: MemberRoleEnum.MEMBER
 }
