@@ -1,5 +1,5 @@
-export class RegisterRequest{
-    username: string;
-    nickname: string;
-    password: string;
+export class RegisterRequest {
+  username: string;
+  nickname: string;
+  password: string;
 }
