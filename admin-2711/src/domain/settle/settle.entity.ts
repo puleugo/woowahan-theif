@@ -10,6 +10,7 @@ import {
 } from 'typeorm';
 import { Order } from '../order/order.entity';
 import { User } from '../user/user.entity';
+import { Reward } from '../reward/reward.entity';
 
 @Entity('settles')
 export class Settle {
@@ -26,8 +27,11 @@ export class Settle {
   @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
   user: User;
 
-  @OneToMany(() => Order, (order) => order.settles)
+  @OneToMany(() => Order, (order) => order.settle)
   orders: Order[];
+
+  @OneToMany(() => Reward, (rewards) => rewards.settle)
+  rewards: Reward;
 
   @CreateDateColumn()
   @Index()

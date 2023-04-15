@@ -44,7 +44,7 @@ export class Order {
 
   @ManyToOne(() => Settle, (settle) => settle.orders)
   @JoinColumn({ name: 'settle_id', referencedColumnName: 'id' })
-  settles: Settle;
+  settle: Settle;
 
   @CreateDateColumn()
   createdAt: Date;

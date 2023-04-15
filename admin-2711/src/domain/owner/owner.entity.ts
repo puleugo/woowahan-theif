@@ -13,6 +13,9 @@ export class Owner {
   @Column({ type: 'text' })
   password: string;
 
+  @Column({ type: 'varchar', length: 255 })
+  account: string;
+
   @OneToMany(() => Market, (market) => market.owner)
   markets: Market[];
 
