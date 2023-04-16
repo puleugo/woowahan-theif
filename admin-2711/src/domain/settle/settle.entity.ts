@@ -9,8 +9,8 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Order } from '../order/order.entity';
-import { User } from '../user/user.entity';
 import { Reward } from '../reward/reward.entity';
+import { Owner } from '../owner/owner.entity';
 
 @Entity('settles')
 export class Settle {
@@ -18,14 +18,14 @@ export class Settle {
   id: number;
 
   @Column({ type: 'uuid' })
-  userId: string;
+  ownerId: string;
 
   @Column({ type: 'int' })
   amount: number;
 
-  @ManyToOne(() => User, (user) => user.settles)
-  @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
-  user: User;
+  @ManyToOne(() => Owner, (owner) => owner.settles)
+  @JoinColumn({ name: 'owner_id', referencedColumnName: 'id' })
+  owner: Owner;
 
   @OneToMany(() => Order, (order) => order.settle)
   orders: Order[];

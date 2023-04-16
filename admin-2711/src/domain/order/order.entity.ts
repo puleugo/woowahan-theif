@@ -28,6 +28,9 @@ export class Order {
   @Column({ type: 'int' })
   amount: number;
 
+  @Column({ type: 'int' })
+  settleId: number;
+
   @Column({ type: 'enum', enum: OrderStatusEnum })
   status: OrderStatusEnum;
 

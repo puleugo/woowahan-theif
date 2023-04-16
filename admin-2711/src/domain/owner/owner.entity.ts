@@ -19,6 +19,6 @@ export class Owner {
   @OneToMany(() => Market, (market) => market.owner)
   markets: Market[];
 
-  @OneToMany(() => Settle, (settle) => settle.user)
+  @OneToMany(() => Settle, (settle) => settle.owner)
   settles: Settle[];
 }
