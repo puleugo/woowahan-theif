@@ -8,8 +8,8 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Order } from './order.entity';
-import { Product } from '../product/product.entity';
 import { Reward } from '../reward/reward.entity';
+import { ProductSnapshot } from '../product/product-snapshot.entity';
 
 @Entity('order_products')
 export class OrderProduct {
@@ -20,7 +20,7 @@ export class OrderProduct {
   orderId: number;
 
   @Column({ type: 'int' })
-  productId: number;
+  productSnapshotId: number;
 
   @Column({ type: 'int' })
   quantity: number;
@@ -32,9 +32,12 @@ export class OrderProduct {
   @JoinColumn({ name: 'order_id', referencedColumnName: 'id' })
   order: Order;
 
-  @ManyToOne(() => Product, (product) => product.orderProduct)
-  @JoinColumn({ name: 'product_id', referencedColumnName: 'id' })
-  product: Product;
+  @ManyToOne(
+    () => ProductSnapshot,
+    (productSnapshot) => productSnapshot.orderProduct,
+  )
+  @JoinColumn({ name: 'product_snapshot_id', referencedColumnName: 'id' })
+  snapshot: ProductSnapshot;
 
   @OneToOne(() => Reward, (reward) => reward.orderProduct)
   reward: Reward;

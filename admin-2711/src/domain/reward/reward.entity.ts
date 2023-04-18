@@ -8,7 +8,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { OrderProduct } from '../order/order-product.entity';
-import { Settle } from '../settle/settle.entity';
+import { Settlement } from '../settle/settle.entity';
 
 @Entity('rewards')
 export class Reward {
@@ -31,9 +31,9 @@ export class Reward {
   @JoinColumn({ name: 'order_product_id' })
   orderProduct: OrderProduct;
 
-  @ManyToOne(() => Settle, (settle) => settle.rewards)
+  @ManyToOne(() => Settlement, (settle) => settle.rewards)
   @JoinColumn({ name: 'settle_id' })
-  settle: Settle;
+  settle: Settlement;
 
   @CreateDateColumn()
   createdAt: Date;

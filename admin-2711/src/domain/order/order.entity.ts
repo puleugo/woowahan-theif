@@ -10,7 +10,7 @@ import {
 } from 'typeorm';
 import { User } from '../user/user.entity';
 import { OrderProduct } from './order-product.entity';
-import { Settle } from '../settle/settle.entity';
+import { Settlement } from '../settle/settle.entity';
 import { Market } from '../market/market.entity';
 import { OrderStatusEnum } from './order-status.enum';
 
@@ -34,20 +34,24 @@ export class Order {
   @Column({ type: 'enum', enum: OrderStatusEnum })
   status: OrderStatusEnum;
 
-  @ManyToOne(() => User, (user) => user.orders)
+  @ManyToOne(() => User, (user) => user.orders, {
+    onUpdate: 'CASCADE',
+  })
   @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
   user: User;
 
-  @ManyToOne(() => Market, (market) => market.orders)
+  @ManyToOne(() => Market, (market) => market.orders, {
+    onUpdate: 'CASCADE',
+  })
   @JoinColumn({ name: 'market_id', referencedColumnName: 'id' })
   market: Market;
 
   @OneToMany(() => OrderProduct, (orderProduct) => orderProduct.order)
   orderProduct: OrderProduct[];
 
-  @ManyToOne(() => Settle, (settle) => settle.orders)
+  @ManyToOne(() => Settlement, (settle) => settle.orders)
   @JoinColumn({ name: 'settle_id', referencedColumnName: 'id' })
-  settle: Settle;
+  settle: Settlement;
 
   @CreateDateColumn()
   createdAt: Date;

@@ -1,4 +1,7 @@
 import {
+  AfterInsert,
+  AfterUpdate,
+  BaseEntity,
   Column,
   CreateDateColumn,
   DeleteDateColumn,
@@ -9,11 +12,12 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { OrderProduct } from '../order/order-product.entity';
 import { Market } from '../market/market.entity';
+import { ProductSnapshot } from './product-snapshot.entity';
+import { dataSource } from '../../app/data-source';
 
 @Entity('products')
-export class Product {
+export class Product extends BaseEntity {
   @PrimaryGeneratedColumn('increment')
   id: number;
 
@@ -26,12 +30,15 @@ export class Product {
   @Column({ type: 'uuid' })
   marketId: string;
 
-  @OneToMany(() => OrderProduct, (orderProduct) => orderProduct.product)
-  orderProduct: OrderProduct[];
-
   @ManyToOne(() => Market, (market) => market.products)
   @JoinColumn({ name: 'market_id', referencedColumnName: 'id' })
   market: Market;
+
+  @OneToMany(
+    () => ProductSnapshot,
+    (productSnapshot) => productSnapshot.product,
+  )
+  snapshots: ProductSnapshot[];
 
   @CreateDateColumn()
   createdAt: Date;
@@ -41,4 +48,15 @@ export class Product {
 
   @DeleteDateColumn({ nullable: true })
   deletedAt: Date | null;
+
+  @AfterInsert()
+  @AfterUpdate()
+  async createSnapshot() {
+    const productSnapshot = new ProductSnapshot();
+    productSnapshot.product = this;
+    productSnapshot.name = this.name;
+    productSnapshot.price = this.price;
+
+    await dataSource.getRepository(ProductSnapshot).save(productSnapshot);
+  }
 }

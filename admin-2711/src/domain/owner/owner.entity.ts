@@ -1,6 +1,6 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { Settle } from '../settle/settle.entity';
 import { Market } from '../market/market.entity';
+import { Settlement } from '../settle/settle.entity';
 
 @Entity('owners')
 export class Owner {
@@ -19,6 +19,6 @@ export class Owner {
   @OneToMany(() => Market, (market) => market.owner)
   markets: Market[];
 
-  @OneToMany(() => Settle, (settle) => settle.owner)
-  settles: Settle[];
+  @OneToMany(() => Settlement, (settle) => settle.settlementOwner)
+  settles: Settlement[];
 }

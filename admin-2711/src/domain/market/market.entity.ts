@@ -4,12 +4,11 @@ import {
   JoinColumn,
   ManyToOne,
   OneToMany,
-  Point,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Owner } from '../owner/owner.entity';
 import { Order } from '../order/order.entity';
-import { Settle } from '../settle/settle.entity';
+import { Settlement } from '../settle/settle.entity';
 import { Product } from '../product/product.entity';
 
 @Entity('markets')
@@ -21,7 +20,7 @@ export class Market {
   name: string;
 
   @Column({ type: 'point' })
-  address: Point;
+  address: string;
 
   @ManyToOne(() => Owner, (owner) => owner.markets, {
     onDelete: 'CASCADE',
@@ -37,5 +36,5 @@ export class Market {
   orders: Order[];
 
   @OneToMany(() => Order, (order) => order.market)
-  settles: Settle[];
+  settles: Settlement[];
 }
